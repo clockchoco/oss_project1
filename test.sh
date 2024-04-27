@@ -39,14 +39,37 @@ teams.csv & matches.csv\n
 		4) read -p "Do you want to get each team's ranking and the hightest-scoring player? (y/n):" yn
 			if [[ $yn -eq "y" ]]
 			then
-			cat teams.csv |tail -n +2 |sort -n -t, -k6 | awk -F, '{print NR,$1}'
-	
+				target_team=$(cat teams.csv |tail -n +2 |sort -n -t, -k6 | awk -F, '{printf("%s,",$1)}')
+				echo ""
+				IFS=","
+				i=0
+				for team_ in $target_team
+				do 	
+				((i++))
+				echo "$i $team_"
+				cat players.csv | tail -n +2 | awk -F, -v team=$team_ '$4~team {print $1","$7}' | sort -r -n -t, -k2 | tr ',' ' '| head -1 ; echo "";
+				done	
 			else
 				continue
 			fi;;
-		7) exit 1
+		5) read -p "Do you want to modify the format of date? (y/n): " yn
+		       if [ $yn = "y" ]
+		       then
+				cat matches.csv|sed -ne '2,11p' | sed 's/Aug/08/' | awk '{printf("%d/%d/%d %s\n",$3,$1,$2,$5)}' | cut -d, -f1
+		       else
+				continue
+			fi;;
+		6) cat teams.csv | tail -n +2 | awk -F, '{print NR")"$1}' | column
+			read -p "Enter your team number: " num
+			echo ""
+			team_name=$(cat teams.csv | tail -n +2 | awk -F, -v team_num=$num 'NR==team_num {print $1}' | cut -d " " -f1)
+			
+			cat matches.csv | tail -n +2 | awk -F, -v team=$team_name '$3~team {print $3,$5,"vs",$6,$4":"$5-$6}'| sort -t: -n -r -k2
+
+			;;
+		7) echo "Bye!" 
+			exit 1
 	esac
 done
-echo "Bye!"
 
 
