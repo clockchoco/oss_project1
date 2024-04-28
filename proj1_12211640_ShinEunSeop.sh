@@ -1,12 +1,10 @@
 #! /bin/bash
-echo "************OSS1 - Project1************"
-echo -e "*\t  StudentID : 12211640\t      *"
-echo -e "*\t  Name : EunSeop Shin\t      *"
-echo -e  "***************************************\n"
+# ./proj1_12211640_ShinEunSeop teams.csv players.csv matches.csv
 if [ $# -ne 3 ]; then
 	echo "usage: $0 file1 file2 file3"
 	exit 2
 fi
+
 for file in $*
 do
 if [[ $file != *.csv ]]; then
@@ -14,6 +12,12 @@ if [[ $file != *.csv ]]; then
 	exit 2
 fi
 done
+
+echo "************OSS1 - Project1************"
+echo -e "*\t  StudentID : 12211640\t      *"
+echo -e "*\t  Name : EunSeop Shin\t      *"
+echo -e  "***************************************\n"
+
 while :
 do
 	echo -e "\n[MENU]"
@@ -46,7 +50,7 @@ do
 			if [ $yn = "y" ]
 			then
 				echo -e "***Top-3 Attendance Match***\n"
-				cat $3 | tail -n +2 | sort -r -t ',' -k 2 -n  | head -3 |awk -F ',' '{printf("%s vs %s (%s)\n%d %s\n\n",$3,$4,$1,$2,$7)}'
+				cat $3 | tail -n +2 | sort -r -t ',' -k 2 -n  | head -3 | awk -F ',' '{printf("%s vs %s (%s)\n%d %s\n\n",$3,$4,$1,$2,$7)}'
 			elif [ $yn = "n" ]; then
                                 continue
                         else
@@ -55,7 +59,7 @@ do
 		4) read -p "Do you want to get each team's ranking and the hightest-scoring player? (y/n):" yn
 			if [ $yn = "y" ]
 			then
-				target_team=$(cat $1 |tail -n +2 |sort -n -t, -k6 | awk -F, '{printf("%s,",$1)}')
+				target_team=$(cat $1 | tail -n +2 | sort -n -t, -k6 | awk -F, '{printf("%s,",$1)}')
 				echo ""
 				IFS=","
 				i=0
