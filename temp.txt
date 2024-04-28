@@ -1,2 +1,0 @@
-cat matches.csv | tail -n +2 | sort -r -t ',' -k 2 -n  | head -10
-
