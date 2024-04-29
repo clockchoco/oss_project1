@@ -1,5 +1,5 @@
 #! /bin/bash
-# ./proj1_12211640_ShinEunSeop teams.csv players.csv matches.csv
+# ./proj1_12211640_ShinEunSeop.sh teams.csv players.csv matches.csv
 if [ $# -ne 3 ]; then
 	echo "usage: $0 file1 file2 file3"
 	exit 2
